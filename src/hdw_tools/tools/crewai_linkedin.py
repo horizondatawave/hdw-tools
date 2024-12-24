@@ -15,6 +15,18 @@ class GetLinkedInCompany(BaseTool):
         return client.get_data(endpoint="linkedin/company", request_payload=kwargs, response_model=LinkedinCompany)
 
 
+class GetLinkedInCompanyEmployees(BaseTool):
+    name: str = "Get LinkedIn company employees"
+    description: str = "Get LinkedIn company employees by company URN"
+    args_schema: Type[BaseModel] = LinkedinCompanyEmployeesPayload
+
+    def _run(self, **kwargs: dict) -> list[LinkedinCompanyEmployee] | dict:
+        client = APIClient()
+        return client.get_data(
+            endpoint="linkedin/company/employees", request_payload=kwargs, response_model=LinkedinCompanyEmployee
+        )
+
+
 class GetLinkedInCompanyPosts(BaseTool):
     name: str = "Get LinkedIn company posts"
     description: str = "Get LinkedIn company posts"
@@ -25,6 +37,16 @@ class GetLinkedInCompanyPosts(BaseTool):
         return client.get_data(
             endpoint="linkedin/company/posts", request_payload=kwargs, response_model=LinkedinUserPost
         )
+
+
+class GetLinkedInEmailUser(BaseTool):
+    name: str = "Get LinkedIn user by email"
+    description: str = "Get LinkedIn user by email"
+    args_schema: Type[BaseModel] = LinkedinEmailUserPayload
+
+    def _run(self, **kwargs: dict) -> list[LinkedinEmailUser] | dict:
+        client = APIClient()
+        return client.get_data(endpoint="linkedin/email/user", request_payload=kwargs, response_model=LinkedinEmailUser)
 
 
 class GetLinkedInGroup(BaseTool):

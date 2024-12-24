@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="hdw_tools",
-    version="0.0.4",
+    version="0.0.5",
     description="Horizon Data Wave Tools",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -14,6 +14,8 @@ setup(
     package_dir={"": "src"},
     author="HorizonDataWave",
     author_email="pip@horizondatawave.ai",
+    url="https://github.com/horizondatawave/hdw-tools",
+    license="MIT",
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.12",

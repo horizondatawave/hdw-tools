@@ -6,7 +6,9 @@ from hdw_tools.core.models import *
 class LinkedInToolSpec(BaseToolSpec):
     spec_functions = [
         "linkedin_company",
+        "linkedin_company_employees",
         "linkedin_company_posts",
+        "linkedin_email_user",
         "linkedin_group",
         "linkedin_post",
         "linkedin_post_comments",
@@ -38,9 +40,25 @@ class LinkedInToolSpec(BaseToolSpec):
             endpoint="linkedin/company", request_payload=request_payload, response_model=LinkedinCompany
         )
 
+    def linkedin_company_employees(
+        self, request_payload: LinkedinCompanyEmployeesPayload
+    ) -> list[LinkedinCompanyEmployee] | dict:
+        """
+        Retrieve a list of employees working for a LinkedIn company identified by URN.
+        Endpoint: "linkedin/company/employees"
+        IMPORTANT: Use this tool to fetch details about employees associated with a specific company. Ensure that a valid company URN is included in the request payload.
+
+        :return: A list of dictionaries containing the details of company employees, or a dictionary with the response from the endpoint.
+        """
+        return self.client.get_data(
+            endpoint="linkedin/company/employees",
+            request_payload=request_payload,
+            response_model=LinkedinCompanyEmployee,
+        )
+
     def linkedin_company_posts(self, request_payload: LinkedinCompanyPostsPayload) -> list[LinkedinUserPost] | dict:
         """
-        Retrieve posts published by a LinkedIn company URM.
+        Retrieve posts published by a LinkedIn company URN.
         Endpoint: "linkedin/company/posts"
         IMPORTANT: Use this tool to fetch recent posts or updates shared by a specific company. Ensure that a valid company URN is included in the request payload.
 
@@ -60,6 +78,18 @@ class LinkedInToolSpec(BaseToolSpec):
         """
         return self.client.get_data(
             endpoint="linkedin/group", request_payload=request_payload, response_model=LinkedinGroup
+        )
+
+    def linkedin_email_user(self, request_payload: LinkedinEmailUserPayload) -> list[LinkedinEmailUser] | dict:
+        """
+        Retrieve detailed information about a LinkedIn user by their email address.
+        Endpoint: "linkedin/email/user"
+        IMPORTANT: Use this tool to fetch user-specific data such as name, profile, connections, and other relevant details by providing a valid email address in the request payload.
+
+        :return: A list of dictionaries containing user details, or a dictionary with the response from the endpoint.
+        """
+        return self.client.get_data(
+            endpoint="linkedin/email/user", request_payload=request_payload, response_model=LinkedinEmailUser
         )
 
     def linkedin_post(self, request_payload: LinkedinPostPayload) -> list[LinkedinUserPost] | dict:
