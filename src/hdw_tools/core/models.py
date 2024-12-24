@@ -29,6 +29,12 @@ class LinkedinCompanyPayload(BaseModel):
     company: str = Field(..., description="Company Alias or URL", examples=["openai"], title="Company")
 
 
+class LinkedinEmailUserPayload(BaseModel):
+    timeout: Optional[Union[int, float]] = Field(300.0, title="Timeout")
+    email: str = Field(..., description="Email to get user by email", examples=["dekeyelll@gmail.com"], title="Email")
+    count: Optional[PositiveInt] = Field(5, description="Max result count", title="Count")
+
+
 class LinkedinGroupMemberRole(Enum):
     owner = "owner"
     manager = "manager"
@@ -168,6 +174,11 @@ class LinkedinURNLiteralJob(BaseModel):
     value: str = Field(..., title="Value")
 
 
+class LinkedinURNLiteralMember(BaseModel):
+    type: Literal["member"] = Field(..., title="Type")
+    value: str = Field(..., title="Value")
+
+
 class LinkedinUserBirthDate(BaseModel):
     field_type: Optional[str] = Field("LinkedinUserBirthDate", alias="@type", title="Entity Type")
     day: int = Field(..., title="Day")
@@ -284,6 +295,23 @@ class User(BaseModel):
     created_at: datetime = Field(..., title="Created At")
     modified_at: datetime = Field(..., title="Modified At")
     last_login_at: Optional[datetime] = Field(..., title="Last Login At")
+
+
+class LinkedinCompanyEmployee(BaseModel):
+    field_type: Optional[str] = Field("LinkedinCompanyEmployee", alias="@type", title="Entity Type")
+    internal_id: LinkedinURNLiteralMember
+    urn: LinkedinURNLiteralFsdProfile
+    name: str = Field(..., title="Name")
+    url: str = Field(..., title="Url")
+    image: Optional[str] = Field(None, title="Image")
+    headline: Optional[str] = Field(None, title="Headline")
+    location: Optional[str] = Field(None, title="Location")
+
+
+class LinkedinCompanyEmployeesPayload(BaseModel):
+    timeout: Optional[Union[int, float]] = Field(300.0, title="Timeout")
+    company: LinkedinURNLiteralCompany = Field(..., description="Company URN", examples=["company:14064608"])
+    count: PositiveInt = Field(..., description="Max result count", title="Count")
 
 
 class LinkedinCompanyPostsPayload(BaseModel):
@@ -479,6 +507,30 @@ class LinkedinCompanyPostCompany(BaseModel):
     url: str = Field(..., title="Url")
     headline: Optional[str] = Field(None, title="Headline")
     image: Optional[str] = Field(None, title="Image")
+
+
+class LinkedinEmailUser(BaseModel):
+    field_type: Optional[str] = Field("LinkedinEmailUser", alias="@type", title="Entity Type")
+    internal_id: LinkedinURN
+    urn: LinkedinURN
+    name: str = Field(..., title="Name")
+    alias: str = Field(..., title="Alias")
+    url: str = Field(..., title="Url")
+    emails: List[str] = Field(..., title="Emails")
+    phone_numbers: List[str] = Field(..., title="Phone Numbers")
+    birth_date: Optional[LinkedinUserBirthDate] = None
+    websites: Optional[List[LinkedinUserWebsite]] = Field(None, title="Websites")
+    headline: Optional[str] = Field(None, title="Headline")
+    follower_count: Optional[int] = Field(None, title="Follower Count")
+    image: Optional[str] = Field(None, title="Image")
+    connection_count: Optional[int] = Field(None, title="Connection Count")
+    description: Optional[str] = Field(None, title="Description")
+    top_skills: Optional[List[str]] = Field(None, title="Top Skills")
+    frame: Optional[LinkedinProfileStatus] = None
+    location: Optional[str] = Field(None, title="Location")
+    pronouns: Optional[str] = Field(None, title="Pronouns")
+    custom_pronouns: Optional[str] = Field(None, title="Custom Pronouns")
+    verified: Optional[bool] = Field(False, title="Verified")
 
 
 class LinkedinGroupUser(BaseModel):
