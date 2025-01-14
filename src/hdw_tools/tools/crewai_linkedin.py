@@ -1,4 +1,4 @@
-from crewai_tools import BaseTool  # type: ignore
+from crewai.tools import BaseTool  # type: ignore
 from hdw_tools.core.base import APIClient
 from hdw_tools.core.models import *
 from typing import Type
